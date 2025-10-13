@@ -1,0 +1,49 @@
+REM THIS IS A Diagnosis.KB FILE
+
+RULE [Is it influenza?]
+If [Symptoms] = "drydry_cough" AND 
+[Symptoms] = "general_malaise" AND
+[Symptoms] = "Fever"
+THEN [Diagnosis] = "You may have influenza"
+
+
+RULE [Is it influenza?]
+If [Symptoms] = "drydry_cough" AND 
+[Symptoms] = "general_malaise" AND
+[Symptoms] != "Fever"
+THEN [Diagnosis] = "You may have Laryngitis"
+
+RULE [Is it influenza?]
+If [Symptoms] = "Runny_nose" AND 
+[Symptoms] = "sneezing" AND
+[Allergy] = TRUE
+THEN [Diagnosis] = "You may have heyfever"
+
+RULE [Is it influenza?]
+If [Symptoms] = "Runny_nose" AND 
+[Symptoms] = "sneezing" AND
+[Allergy] = FALSE
+THEN [Diagnosis] = "You may have heyfever"
+
+RULE [Is it influenza?]
+If [Symptoms] = "Breathlessnes" AND 
+[Symptoms] = "Wheezing" 
+THEN [Diagnosis] = "You may have Asthma"
+
+PROMPT [Symptoms] ALLCHOICE
+"What are the Symptoms[you can select all applicable choice]"
+"drydry_cough" 
+"general_malaise"
+"Fever"
+"Runny_nose"
+"sneezing"
+"Breathlessnes"
+"Wheezing"
+GOAL [Diagnosis] 
+
+MAXVALS [Symptoms] = 3
+
+PROMPT [Allergy] YESNO
+
+GOAL [Diagnosis] 
+DEFAULT [Diagnosis] = "I need more information to make the diagnosis"

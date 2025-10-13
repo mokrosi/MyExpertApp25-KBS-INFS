@@ -1,0 +1,104 @@
+REM this is a Fruit.kb file
+
+RULE [BANANA]
+IF [shape] = "long" AND
+[color] :"Yellow" "Green"
+THEN [Fruit] = "The fruit is Banana"
+
+
+REM Rules to identify fruit classes
+RULE [Is it VineClass?]
+IF [Diameter] > 4 AND
+[shape] : "round" "oblong"
+THEN [FruitClass] = "VineClass"
+
+
+RULE [Is it TreeClass?]
+IF [Diameter] <= 4 AND
+[shape] = "round"
+THEN [FruitClass] = "TreeClass"
+
+
+RULE [Is it SeedClass?]
+IF [Diameter] <= 4 AND
+[shape] = "round"
+THEN [FruitClass] = "TreeClass"
+
+
+REM Rules for VineClass Fruit
+RULE [WaterMelon]
+IF [color] = "Green" AND
+[FruitClass] = "VineClass"
+THEN [Fruit] = "WaterMelon"
+
+
+RULE [HoneyDew]
+IF [color] = "Yellow" AND
+[Surface] = "Smooth"
+THEN [Fruit] = "HoneyDew"
+
+
+RULE [cantaloupe]
+IF [color] = "tan" AND
+[Surface] = "Rough"
+THEN [Fruit] = "cantaloupe"
+
+
+REM Rules for TREECLASS FruitClass
+REM Rules for SeedClass
+RULE [StoneFruit]
+IF [FruitClass] = "TreeClass" AND
+[Seed] = "One"
+THEN [SeedClass] = "StoneFruit"
+
+
+RULE [multipleSeedFruit]
+IF [FruitClass] = "TreeClass" AND
+[Seed] = "Many"
+THEN [SeedClass] = "MultipleSeedClass"
+
+
+REM RULES to identify the treeclass Fruit
+RULE ["peach" or “apricot”]
+IF [SeedClass] = "StoneSeedFruit" AND
+[color] = "Orange"
+THEN [Fruit] = "Peach or apricot"
+
+PROMPT [Diameter] Numeric
+"What is the fruit diameter in inch ?"
+"0"
+"10"
+
+
+PROMPT [Surface] ForcedChoice
+"What is the Surface?"
+"Smooth"
+"Rough"
+
+
+PROMPT [color] ForcedChoice
+"What is the color ?"
+"red"
+"Yellow"
+"Green"
+"Pink"
+"Blue"
+"Black"
+"Gray"
+"tan"
+"Orange"
+
+
+PROMPT [shape] ForcedChoice
+"What is the shape ?"
+"round"
+"long"
+"oblong"
+
+
+PROMPT [Seed] ForcedChoice
+"How many seeds are in the fruit ?"
+"One"
+"Many"
+
+GOAL [Fruit]

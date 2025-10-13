@@ -1,0 +1,64 @@
+
+
+RULE [Sharqia Or Wasta]
+IF [interests] = "Desert" AND 
+[interests] = "Sea"
+THEN [Region] = "Sharqia Or Wasta"
+
+
+RULE [Dhahira]
+IF [interests] = "Desert" AND 
+[interests] = "wadis"
+THEN [Region] = "Dhahira"
+
+RULE [Batinah]
+IF [interests] = "sea" AND 
+[interests] = "wadis" AND
+[Distance] < 500 AND 
+[Weather] = "Hot"
+THEN [Region] = "Batinah"
+
+RULE [Musandam]
+IF [interests] = "sea" AND 
+[interests] = "wadis" AND
+[Distance]  < 500 AND 
+[Weather] = "Cold"
+THEN [Region] = "Musandam"
+
+RULE [Dhofar]
+IF [interests] = "sea" AND 
+[interests] = "wadis" AND
+[Distance] >= 500 
+THEN [Region] = "Dhofar"
+
+RULE [Dakhelia]
+IF [interests] = "castles" AND
+[interests] != "sea" AND 
+[interests] != "wadis" 
+THEN [Region] = "Dakhelia"
+
+
+PROMPT [interests] ALLCHOICE
+"What are your interests select all applicable choices ?"
+"Desert"
+"Sea"
+"Wadis"
+"Castles"
+
+MAXVALS [interests] = 4
+
+PROMPT [Distance] Numeric
+"What is the distance ?"
+"0"
+"1700"
+
+
+
+PROMPT [Weather] forcedchoice
+"What type of weather do you like ?"
+"Hot"
+"Cold"
+
+GOAL [Region]
+
+
