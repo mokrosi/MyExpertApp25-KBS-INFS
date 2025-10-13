@@ -88,7 +88,6 @@ PROMPT [color] ForcedChoice
 "tan"
 "Orange"
 
-
 PROMPT [shape] ForcedChoice
 "What is the shape ?"
 "round"
