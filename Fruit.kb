@@ -57,6 +57,8 @@ IF [FruitClass] = "TreeClass" AND
 [Seed] = "Many"
 THEN [SeedClass] = "MultipleSeedClass"
 
+RULE [plum]
+IF [color]
 
 REM RULES to identify the treeclass Fruit
 RULE ["peach" or “apricot”]
@@ -87,6 +89,7 @@ PROMPT [color] ForcedChoice
 "Gray"
 "tan"
 "Orange"
+"purple "
 
 PROMPT [shape] ForcedChoice
 "What is the shape ?"
