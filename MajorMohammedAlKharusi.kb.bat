@@ -1,1 +1,1 @@
-java -jar e2gRuleEngine.jar -kb file:///MyExpertApp25/MajorMohammedAlKharusi.kb -d
+java -jar e2gRuleEngine.jar -kb file:///MyExpertApp25/MajorMohammedAlKharusi.kb 

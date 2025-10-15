@@ -10,23 +10,29 @@ IF [GPA] >= 2.5 AND
 THEN [major] = "INFS"
 
 
+RULE [FINA] 
+IF [GPA] >= 2.5 AND
+[coursesinterest] = "theory"  AND
+[coursesinterest] = "number" 
+THEN [major] = "FINA"
+
 RULE [ACCT] 
 IF [GPA] >= 2.5 AND
 [coursesinterest] = "number" 
 THEN [major] = "ACCT"
 
-RULE [FINA] 
-IF [GPA] > 2.5 AND
+RULE [ECONorPOMG] 
+IF [GPA] < 2.5 AND
 [coursesinterest] = "number" AND
 [coursesinterest] = "theory" 
-THEN [major] = "FINA"
+THEN [major] = "ECON or POMG"
 
 RULE [STAT] 
 IF [GPA] < 2.5 AND
 [coursesinterest] = "number" 
 THEN [major] = "STAT"
 
-RULE [FINA] 
+RULE [ECONorPOMG] 
 IF [GPA] < 2.5 AND
 [coursesinterest] = "number" AND
 [coursesinterest] = "theory" 
@@ -55,6 +61,7 @@ PROMPT [coursesinterest] ALLCHOICE
 "technical"
 "theory"
 "number"
+MAXVALS [coursesinterest] = 2
 
 
 GOAL [major] 

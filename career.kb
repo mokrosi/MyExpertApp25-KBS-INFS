@@ -1,0 +1,65 @@
+
+
+RULE [Chemist] 
+IF [Character] = "smart" AND
+[Character] = "Positive" AND 
+[Stream] = "Science" AND
+[years] <= 5
+THEN [CAREER] = "Chemist"
+
+RULE [Architect] 
+IF [Character] = "smart" AND
+[Character] = "Positive" AND 
+[Stream] = "Art" AND
+[years] <= 5
+THEN [CAREER] = "Architect"
+
+RULE [Politician] 
+IF [Character] = "smart" AND
+[Character] = "Positive" AND 
+[Character] = "outgoing" AND 
+[naturalScience] = "no" AND
+[years] >= 4
+THEN [CAREER] = "Politician"
+
+RULE [MedicalDoctor] 
+IF [Character] = "smart" AND
+[Character] = "Positive" AND 
+[Character] = "outgoing" AND 
+[naturalScience] = "yes" AND
+[years] >= 7
+THEN [CAREER] = "Medical Doctor"
+
+
+RULE [Salesperson] 
+IF [Character] = "Positive" AND
+[Character] = "outgoing" AND
+[years] <= 4
+THEN [CAREER] = "Salesperson"
+
+
+PROMPT [Character] ALLCHOICE 
+"What isS your Character ??"
+"Positive"
+"outgoing"
+"smart"
+MAXVALS [Character] = 3
+
+
+PROMPT [Stream] forcedchoice
+"What is your Stream ??"
+"Science"
+"Art"
+
+
+PROMPT [naturalScience] forcedchoice
+"Like natural science?"
+"yes"
+"no"
+
+PROMPT [years] Numeric
+"Study years ?"
+"0"
+
+
+GOAL [CAREER] 
