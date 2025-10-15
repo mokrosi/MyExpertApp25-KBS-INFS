@@ -1,0 +1,60 @@
+
+RULE [nomajor] 
+IF [GPA] < 2
+THEN [major] = "no major can be assigned "
+
+RULE [INFS] 
+IF [GPA] >= 2.5 AND
+[coursesinterest] = "technical" AND
+[coursesinterest] = "theory" 
+THEN [major] = "INFS"
+
+
+RULE [ACCT] 
+IF [GPA] >= 2.5 AND
+[coursesinterest] = "number" 
+THEN [major] = "ACCT"
+
+RULE [FINA] 
+IF [GPA] > 2.5 AND
+[coursesinterest] = "number" AND
+[coursesinterest] = "theory" 
+THEN [major] = "FINA"
+
+RULE [STAT] 
+IF [GPA] < 2.5 AND
+[coursesinterest] = "number" 
+THEN [major] = "STAT"
+
+RULE [FINA] 
+IF [GPA] < 2.5 AND
+[coursesinterest] = "number" AND
+[coursesinterest] = "theory" 
+THEN [major] = "ECON or POMG"
+
+RULE [MGMT] 
+IF [GPA] >= 2.5 AND
+[coursesinterest] = "theory" 
+THEN [major] = "MGMT"
+
+
+RULE [MRKT] 
+IF [GPA] < 2.5 AND
+[coursesinterest] = "theory" 
+THEN [major] = "MRKT"
+
+
+
+PROMPT [GPA] Numeric
+"What is your GPA ?"
+"0"
+"4"
+
+PROMPT [coursesinterest] ALLCHOICE
+"What is your coursesinterest ?"
+"technical"
+"theory"
+"number"
+
+
+GOAL [major] 
