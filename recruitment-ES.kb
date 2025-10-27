@@ -1,0 +1,89 @@
+
+
+
+
+RULE [degree Reject] 
+IF [degree] = "None"
+THEN [Accepted] = "reject"
+
+RULE [Accepted] 
+IF [degree] : "information technology (IT)" "information system (IS)" "information system (IS)" "computer engineering (CE)"
+THEN [continue] = TRUE 
+
+
+RULE [experience > 4]
+IF [continue] = TRUE AND
+[experience] < 4 
+THEN [Accepted] = "reject" AND
+[Classified] = "No Classified" 
+
+
+
+RULE [work-history]
+IF [continue] = TRUE AND
+[work-history] = "bad"
+THEN [Accepted] = "reject" AND
+[Classified] = "No Classified" 
+
+
+RULE [ IT experience]
+IF [continue] = TRUE AND
+[IT-experience] < 2
+THEN [Accepted] = "reject" AND
+[Classified] = "No Classified" 
+
+RULE [experience and IT experience]
+IF [continue] = TRUE AND
+[experience] > 10 AND 
+[work-history] = "good" AND 
+[IT-experience] > 6
+THEN [Accepted] = "accepted for an interview" AND
+[Classified] = "high-level applications" 
+
+RULE [experience and IT experience]
+IF [continue] = TRUE AND
+[experience] > 10 AND 
+[work-history] = "good" AND 
+[IT-experience] > 2 AND
+[IT-experience] < 6 AND
+[expected-salary] < 1000 
+THEN [Accepted] = "accepted for an interview" AND
+[Classified] = "medium-level applications" 
+Else [Accepted] = "accepted for an interview" AND
+[Classified] = "low-level applications" 
+
+
+Prompt [degree]  ALLCHOICE
+"What is your majer degree ?"
+"information technology (IT)"
+"information system (IS)"
+"computer science (CS)"
+"computer engineering (CE)"
+"None"
+
+Prompt [experience]  numeric
+"How many yesr experience?"
+"0"
+"100"
+
+Prompt [IT-experience]  numeric
+"How many IT experience yesrs ?"
+"0"
+"100"
+
+
+
+Prompt [expected-salary] numeric
+"What is the expected salary?"
+"0"
+"10000"
+
+
+Prompt [work-history]  forcedchoice
+"What is work history?"
+"good"
+"bad"
+
+
+Goal [Classified]
+Goal [Accepted]
