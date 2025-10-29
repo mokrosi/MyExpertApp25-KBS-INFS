@@ -1,0 +1,1 @@
+java -jar e2gRuleEngine.jar -w=800 -h=350 -sp=50 -bg=#926f5B -tc="#00ff00ff" -at "Diagnosis" -st "Developed by Krosi" -sb "what is Diagnosis"   -kb file:///MyExpertApp25/Diagnosis/Diagnosis.kb  

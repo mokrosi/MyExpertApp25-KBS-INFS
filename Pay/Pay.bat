@@ -1,0 +1,1 @@
+java -jar e2gRuleEngine.jar -kb file:///MyExpertApp25/Pay/Pay.kb -d

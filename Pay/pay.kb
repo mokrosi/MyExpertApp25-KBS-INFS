@@ -1,0 +1,39 @@
+REM demonstrate e2gRuleEngine calculation capability using ELSE in rule
+
+
+RULE [calculate overtime hours]
+If [the number of hours worked] > 40
+Then [the overtime hours] = {[the number of hours worked] - 40}
+Else [the overtime hours] = 0
+
+REM [temp] attribute used in following rule to split calculation into twoconsequent clauses
+
+
+RULE [calculate pay]
+If [the hourly rate] ? and
+[the number of hours worked] ? and
+[the overtime hours] ?
+Then [temp] = {[the hourly rate]*([the number of hours worked]-[the overtime hours])} and
+[the gross pay] = {[temp] + 1.5*[the hourly rate]*[the overtime hours]}
+
+
+REM MultChoice prompt to demonstrate coercing string values into numeric
+
+
+PROMPT [the hourly rate] MultChoice CF
+"The hourly rate is:"
+"5.00"
+"10.00"
+"15.00"
+
+
+PROMPT [the number of hours worked] Numeric CF
+"The number of hours worked is:"
+"0.0"
+"80.0"
+
+DEFAULT [the gross pay] = 0
+
+GOAL [the gross pay]
+
+FORMAT [the gross pay] = "$%8.2f"

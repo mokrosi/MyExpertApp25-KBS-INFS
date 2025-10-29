@@ -1,0 +1,35 @@
+
+
+RULE [Amount =< 100]
+IF [Amount] <= 100 
+THEN [Loan] = "Reject-amount below minimum"
+
+
+RULE [Is Income * 5 >amount?]
+IF [Amount] > 0  AND
+[Income]  = 0
+THEN [Loan] = "Reject-No Income"
+
+RULE [Amount =< 100 and [Can Pay]]
+IF [Amount] >= 100  AND
+[Income]  > 0
+THEN [Can Pay] = {[Income]*5-[Amount]}
+
+RULE [Approve] 
+IF [Can Pay] > 0 
+THEN [Loan] = "Approve- S/he can pay"
+ElSE [Loan] = "Reject- S/he can not pay"
+
+
+
+PROMPT [Amount] Numeric
+"What is the Amount you need ?"
+"0"
+
+
+PROMPT [Income] Numeric
+"What is your Income ?"
+"0"
+
+
+GOAL [Loan]

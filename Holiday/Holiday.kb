@@ -1,0 +1,51 @@
+
+RULE [Service? for >15 and <30]
+If [Age] > 18 AND
+[Age] < 60 AND
+[Service] > 15 AND
+[Service] < 30
+THEN [Holiday] = {22 + 2}
+
+
+RULE [Service? for =<15 ]
+If [Age] > 18 AND
+[Age] < 60 AND
+[Service] <= 15 
+THEN [Holiday] = {22 + 2}
+
+RULE [Service? for >=30]
+If [Age] > 18 AND
+[Age] < 60 AND
+[Service] >=30 
+THEN [Holiday] = {22 + 5 + 3}
+
+RULE [Holiday for >15 and <30]
+If [Age] > 15 and
+[Age] < 30 AND
+[Service] <= 15 
+THEN [Holiday] = {22 + 2}
+
+
+RULE [Holiday for >=60]
+If [Age] >=60 
+Then [Holiday] = {22 + 5+3}
+
+RULE [Holiday for =< 18]
+If [Age] <= 18 
+Then [Holiday] = {22 + 5}
+
+
+
+
+
+PROMPT [Age] Numeric
+"What is your age ?"
+"0"
+"100"
+
+PROMPT [Service] Numeric 
+"how many  year of Service?"
+"1"
+"100"
+
+GOAL [Holiday]

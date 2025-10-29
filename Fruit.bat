@@ -1,1 +1,0 @@
-java -jar e2gRuleEngine.jar -kb file:///MyExpertApp25/Fruit.kb -d
