@@ -1,0 +1,67 @@
+
+
+RULE [cumulative GPA]
+if [semesterGPA] ? AND
+[semesterCredits] ? AND
+[previousCumGPA] ? AND
+[previousCumCredits] ?
+THEN [cumulativeGPA] = {(([semesterGPA]*[semesterCredits])+([previousCumGPA]*[previousCumCredits]))/([semesterCredits]+[previousCumCredits])}
+
+RULE [extended]
+IF [cumulativeGPA] >= 3
+THEN [Status] = "extended"
+
+
+RULE [probation]
+IF [cumulativeGPA] < 2
+THEN [Status] = "probation"
+
+RULE [normal]
+IF [cumulativeGPA] < 3 AND
+[cumulativeGPA] >= 2
+THEN [Status] = "normal"
+
+RULE [At most 18 credits]
+IF [Status] = "extended" 
+THEN [Permittedtotalcredits] = "At most 18 credits"
+
+RULE [At most 12 credits]
+IF [Status] = "probation" 
+THEN [Permittedtotalcredits] = "At most 12 credits"
+
+RULE [At most 15 credits]
+IF [Status] = "normal" 
+THEN [Permittedtotalcredits] = "At most 15 credits"
+
+
+
+
+
+Prompt [semesterGPA] numeric
+"what is you semester GPA ?"
+"0"
+"4"
+
+Prompt [semesterCredits] numeric
+"what is you semester Credits ?"
+"0"
+"20"
+
+Prompt [previousCumGPA] numeric
+"what is you previous Cum GPA ?"
+"0"
+"4"
+
+Prompt [previousCumCredits] numeric
+"what is you previous Cum Credits ?"
+"0"
+"150"
+
+
+
+
+GOAL [Permittedtotalcredits]
+GOAL [Status]
+GOAL [cumulativeGPA]
+
+Format [cumulativeGPA] = "%8.2f"
