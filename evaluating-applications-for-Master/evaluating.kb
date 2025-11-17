@@ -1,0 +1,66 @@
+
+RULE [ GPA <= 2.7]
+IF [GPA] <= 2.7 
+THEN [evaluating] = "Reject-your GPA is not satisfactory"
+
+RULE [GRE Score]
+IF [GPA] > 2.7 AND
+[Test Type] = "GRE" AND
+[GRE] ?
+THEN [Score] = {[GPA]*[GRE]}
+
+RULE [GMAT Score]
+IF [GPA] > 2.7 AND
+[Test Type] = "GMAT" AND
+[GMAT] ?
+THEN [Score] = {50 + ([GPA]*[GMAT])}
+
+RULE [GRE PASS]
+IF [Test Type] = "GRE" AND
+[Score] >= 3100 
+THEN [Contenue] = "Contenue"
+ELSE [evaluating] = "Reject-You did not pass the admission score "
+
+RULE [GMAT PASS]
+IF [Test Type] = "GMAT" AND
+[Score] > 2000 
+THEN [Contenue] = "Contenue"
+ELSE [evaluating] = "Reject-You did not pass the admission score "
+
+
+
+
+
+
+
+
+
+PROMPT [GPA] numeric
+"what is the GPA ?"
+"0"
+"4" 
+
+PROMPT [GMAT] numeric
+"what is the GMAT ?"
+"0"
+"1200" 
+
+PROMPT [GRE] numeric
+"what is the GMAT ?"
+"1000"
+"2500" 
+
+PROMPT [Test Type] MultChoice
+"what is the Test Type ?"
+"GRE"
+"GMAT" 
+
+PROMPT [Work experience] MultChoice
+"have Work experience ?"
+"Yes"
+"No" 
+
+
+
+GOAL [evaluating]
+GOAL [Score]

@@ -1,0 +1,60 @@
+
+
+RULE [IF Simple interest] 
+IF [interestType] = "Simple interest" and 
+[p] ? and
+[r] ? and
+[n] ? 
+Then [interest] = {[p]*[n]*([r]/100)} and 
+[principle with deposit] = {[interest]+[p]}
+
+
+
+RULE [IF Compound interest] 
+IF [interestType] = "Compound interest" and 
+[p] ? and
+[r] ? and
+[n] ? 
+Then [interest] = {[p](1+([r]/100))^[n]} and 
+[principle with deposit] = {[interest]+[p]}
+
+
+
+
+PROMPT [interestType] ForcedChoice
+"what is the type of interest"
+"Simple interest"
+"Compound interest"
+
+
+PROMPT [accountsType] MultChoice
+"what type of accounts you have ?"
+"current"
+"saving"
+"credit"
+
+
+PROMPT [p] Numeric
+"principle"
+"0"
+
+
+
+PROMPT [r] Numeric 
+"the rate"
+"0"
+"100"
+
+
+PROMPT [n] Numeric 
+"duration"
+"0"
+
+
+
+GOAL [principle with deposit]
+GOAL [interest]
+FORMAT [interest] = "$%8.2f"
+FORMAT [interest] = "$%8.2f"
+
+

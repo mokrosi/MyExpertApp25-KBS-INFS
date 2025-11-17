@@ -1,0 +1,22 @@
+REM Count Knowledge Base (feature.kb)
+
+
+
+RULE  [number of features]
+If [important features] ?
+Then [number of features] = {#[important features]}
+
+
+PROMPT [important features] AllChoice
+"Select all of the features you consider important"
+"feature 1"
+"feature 2"
+"feature 3"
+"feature 4"
+"feature 5"
+
+MAXVALS [important features] 10
+
+DEFAULT  [important features] = "no features selected"
+
+GOAL [number of features]

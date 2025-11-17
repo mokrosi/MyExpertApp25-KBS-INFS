@@ -1,0 +1,67 @@
+RULE [Politician?]
+IF  [character] = "smart" and
+    [character] =  "positive"  and
+    [character] =  "outgoing" and
+    [LikeNaturalScience?]= FALSE and
+    [studyyears]  >=4
+THEN  [career]  = "Politician"
+
+RULE [Medical Doctor?]
+IF  [character] = "smart" and
+    [character] =  "positive" and
+    [character] =  "outgoing" and
+    [LikeNaturalScience?]= True and
+    [studyyears]  >=7
+THEN  [career] = "Medical Doctor"
+
+RULE [sales person?]
+IF  [character] =  "positive" and
+    [character] = "outgoing" and
+    [studyyears]  <=4  
+THEN  [career] = "Sales Person"
+
+
+RULE [chemist?]
+IF  [character] = "smart"    and
+    [character] = "positive" and  
+    [streams]   = "Science"  and 
+    [studyyears]  <=5
+THEN  [career] = "Chemist"
+
+RULE [architect?]
+IF   [character] = "smart" and
+     [character] = "positive" and
+     [streams] =  "ARTS" and 
+     [studyyears]  <=5
+THEN  [career] = "Architect"
+
+
+PROMPT [studyyears] Numeric 
+"what is expected study years?"
+"0"
+"10"
+
+PROMPT [character] AllChoice
+"What of the below reflects your behavior?"
+"positive"
+"outgoing"
+"smart"
+
+maxvals [character]  = 3
+
+
+PROMPT [LikeNaturalScience?] YesNo 
+"do you like Natural Science?"
+
+
+PROMPT [streams] ForcedChoice
+"what is your stream"
+"ARTS"
+"Science"
+
+
+
+
+Goal [career]
+
+DEFAULT [career] ="Select a job based on your interest" 

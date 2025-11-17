@@ -1,0 +1,41 @@
+
+
+RULE  [num of characteristics]
+If [characteristics have] ?
+Then [num of characteristics] = {#[characteristics have]}
+
+
+RULE  [strong personality]
+If [num of characteristics] >= 7 
+Then [personality] = "strong personality"
+
+RULE  [average personality]
+If [num of characteristics] < 7 AND
+[num of characteristics] >= 3
+Then [personality] = "average personality"
+ELSE [personality] = "below average personality"
+
+
+
+PROMPT [characteristics have] AllChoice
+"Select all of the characteristics you consider you have"
+"confidence"
+"leadership"
+"decisiveness"
+"self-discipline"
+"resilience"
+"positive"
+"ambition"
+"Inspiration"
+"Persuasiveness"
+"responsible"
+
+
+MAXVALS [characteristics have] 10
+
+DEFAULT  [personality] = "no features selected"
+
+
+GOAL [personality]
+
+GOAL [num of characteristics]
