@@ -1,0 +1,89 @@
+REM MBA Knowledge Base (deposit.kb)
+
+
+
+RULE [simple interest]
+IF  [interesttype] ="simple" AND
+[principle amount] ? AND
+[rate] ?  AND
+[duration] ?
+THEN [deposit] ={[principle amount]*([rate]/100) *[duration]}  AND
+ [principle with deposit] ={[deposit]+[principle amount]}
+
+
+
+RULE [compound interest]
+IF  [interesttype] ="compound" AND
+[principle amount] ? AND
+[rate] ?  AND
+[duration] ?
+THEN [deposit] ={[principle amount]*(1+([rate]/100))^[duration]}  AND
+ [principle with deposit] ={[deposit]+[principle amount]}
+
+RULE [total accounts selescted]
+IF  [principle with deposit] ?  AND
+[account] ?
+THEN [TotalSelectedAccounts] = {#[account]}
+
+RULE [ GOFT at least 2 total accounts selescted]
+IF  [principle with deposit] ?  AND
+[TotalSelectedAccounts] >=2
+THEN  [gift]= {([TotalSelectedAccounts]/100)*[principle with deposit]}
+
+
+RULE [ GiFT for not least 2 total accounts selescted]
+IF  [principle with deposit] ?  AND
+[TotalSelectedAccounts] <2
+THEN  [gift]= 0
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+PROMPT [principle amount] Numeric
+"What is the principle amount ??"
+
+
+
+PROMPT [duration] Numeric
+"What is the duration ??"
+ "5"
+"15"
+
+PROMPT [rate] forcedchoice
+"What is the rate?"
+"3"
+"4"
+"5"
+
+PROMPT [interesttype] forcedchoice
+"What is your deposit type?"
+"simple"
+"compound"
+
+
+PROMPT [account] allchoice
+"what types of accounts you have with the bank?"
+"current"
+"saving"
+"credit"
+
+MAXVALS [account] 3
+ 
+GOAL  [gift]
+GOAL  [principle with deposit]
+GOAL [deposit]
+
+FORMAT [deposit] ="OMR%9.3f"
+FORMAT [principle with deposit] ="OMR%9.3f"
+FORMAT [gift] ="OMR%9.3f"
+
+
+

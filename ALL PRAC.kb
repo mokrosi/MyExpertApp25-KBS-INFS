@@ -1,0 +1,1335 @@
+REM <<<<< Fruit.kb >>>>>>>>>>>>>>>>>>>>>>
+
+RULE [Banana]
+IF [shape] = "long" and 
+[color] :"green" "yellow"
+THEN [Fruitclass] ="No class" and
+[Seedclass] = "no class" and
+[Fruit] ="Banana"
+
+RULE [VineClass]
+IF [diameter] > 4 and 
+ [shape]: "oblong" "round"
+THEN [Fruitclass] ="Vineclass" and
+[Seedclass] = "no class"
+
+RULE [TreeClass]
+IF [diameter] <=4 and 
+ [shape] = "round"
+THEN [Fruitclass] ="Treeclass"
+
+
+REM  <<<<VINE CLASS Fruit>>>>>>>>>>>>>>>>>>
+
+
+RULE [watermelon]
+IF [Fruitclass] ="Vineclass" and
+[color] = "green"  
+THEN [Fruit] = "Watermelon"
+
+
+RULE [honeydew]
+IF [Fruitclass] ="Vineclass" and 
+[color] = "yellow"  and
+[surface]  = "smooth"
+THEN [Fruit] = "honeydew"
+
+RULE [cantaloupe]
+IF [Fruitclass] ="Vineclass" and
+[color] = "tan"  and 
+[surface]  = "rough"
+THEN [Fruit] = "cantaloupe"
+
+REM  <<<<TREE CLASS Fruit>>>>>>>>>>>>>>>>>>
+
+
+RULE [Stoneclass]
+IF [Fruitclass] ="Treeclass"and 
+[seedcount]  = "one"
+THEN [Seedclass]= "Stoneclass"
+
+RULE [Multipleclass]
+IF [Fruitclass] ="Treeclass" and 
+[seedcount]  = "many"
+THEN [Seedclass]= "Multipleclass"
+
+
+RULE [peach ]
+IF [Seedclass]= "Stoneclass"  and 
+[color] = "orange"
+THEN [Fruit] = "peach"
+
+RULE [apricot]
+IF [Seedclass]= "Stoneclass"  and 
+[color] = "orange"
+THEN [Fruit] = "apricot"
+
+
+RULE [plum]
+IF [Seedclass]= "Stoneclass"  and 
+[color] = "purple"
+THEN [Fruit] = "plum"
+
+RULE [cherry]
+IF [Seedclass]= "Stoneclass"  and 
+[color] = "red"
+THEN [Fruit] = "cherry"
+
+
+RULE [Apple]
+IF [Seedclass]= "Multipleclass"  and 
+[color] : "red" "green" "yellow"
+THEN [Fruit] = "Apple"
+
+
+RULE [orange]
+IF [Seedclass]= "Multipleclass"  and 
+[color] = "orange"
+THEN [Fruit] = "orange"
+
+REM  <<<<Prompts Section >>>>>>>>>>>>>>>>>>
+Prompt [shape]  forcedchoice
+"What is the shape of the fruit?"
+"long"
+"oblong"
+"round"
+
+Prompt [color]  forcedchoice
+"What is the color of the fruit?"
+"green"
+"yellow"
+"tan"
+"orange"
+"purple"
+"red"
+
+Prompt [diameter]  numeric
+"What is the diameter of the fruit?"
+"0.5"
+"10"
+
+Prompt [surface]  forcedchoice
+"What is the surface of the fruit?"
+"smooth"
+"rough"
+
+Prompt [seedcount]  forcedchoice
+"What is the seedcount of the fruit?"
+"one"
+"many"
+
+Goal [Fruit]
+Goal [Seedclass]
+Goal [Fruitclass]
+
+MAXVALS [Fruit] =2
+DEFAULT [Fruit] = "there is no fruit with his/her description"
+
+REM Businesss MajorKnowledge Base (busmajor.kb)
+
+RULE [is gpa < 2.0 ?]
+If [gpa] < 2
+Then [major] = "no major can be assigned; improve your grade first"
+
+
+RULE [is it INFS?]
+If [gpa] >= 2.5 and
+[interest]  ="technical" and
+[interest]  ="theory"
+Then [major]  = "you should major information systems"
+
+RULE [is it FINA?]
+If [gpa]  2.5 and
+[interest]  ="numbers" and
+[interest]  ="theory"
+Then [major]  = "you should major finance"
+
+
+RULE [is it ECON/POMG?]
+If [gpa] < 2.5 and
+[interest]  ="numbers" and
+[interest]  ="theory"
+Then [major]  = "you should major Economics or Operation management"
+
+
+
+RULE [is it ACCT?]
+If [gpa] >= 2.5 and
+[interest]  ="numbers" 
+Then [major]  = "you should major Accounting"
+
+
+RULE [is it STAT?]
+If [gpa] < 2.5 and
+[interest]  ="numbers" 
+Then [major] = "you should major Statistics"
+
+RULE [is it MRKT?]
+If [gpa] < 2.5 and
+[interest]  ="theory"
+Then [major]  = "you should major marketing"
+
+
+RULE [is it MGMT?]
+If [gpa] >= 2.5 and
+[interest]  ="theory"
+Then [major] = "you should major management"
+
+
+PROMPT [interest] AllChoice CF
+"What are your learning interests?:"
+"theory"
+"numbers"
+"technical"
+
+MAXVALS [interest]  3
+
+PROMPT [gpa] numeric CF
+"What is your cumulative gpa ?:"
+"0"
+"4"
+
+GOAL [major] 
+
+RULE [new gpa cal]
+If [cursemgpa] ? and
+[cursemcredits] ? and
+[previouscumgpa]  ? and
+[previouscumcredits]?
+Then [newcumgpa] = { (([cursemgpa] * [cursemcredits]) + ([previouscumgpa] *  [previouscumcredits])) / ( [previouscumcredits] +[cursemcredits])}
+
+RULE [extended load]
+If [newcumgpa] >= 3 
+then [status] = " your class load status is extended" and
+[Permittedtotalcredits] = "you are allowed to register for max 18 hours next semester"
+
+RULE [probation load]
+If [newcumgpa] < 2  
+then [status] = "probation" and
+[Permittedtotalcredits] = "you are allowed to register for max 12 hours next semester"
+
+RULE [normal load]
+If [newcumgpa]>= 2 and 
+[newcumgpa] < 3
+then [status] = "normal" and
+[Permittedtotalcredits] = "you are allowed to register for max 15 hours next semester"
+
+
+PROMPT [cursemgpa] Numeric 
+"What is your semester gpa?"
+"0"
+"4"
+PROMPT [cursemcredits] Numeric 
+"What is your semester total credits?"
+"9"
+"18"
+PROMPT [previouscumgpa] Numeric 
+"What is your previous cumulative gpa ?"
+"0"
+"4"
+PROMPT  [previouscumcredits]  Numeric 
+"What is your previous total credit total ?"
+"0"
+"130"
+
+GOAL [Permittedtotalcredits]
+GOAL [status]
+GOAL [newcumgpa]
+
+
+REM demonstrate e2gRuleEngine calculation capability
+
+REM Holiday entitlement
+
+RULE [is it Cube]
+If [SHAPE] =  "Cube" and
+[cubeside] ?
+Then [volume] = {[cubeside] ^3} 
+
+
+RULE [is it Sphere]
+If [SHAPE] =  "Sphere" and
+[radius] ?
+Then      [volume] = {(4/3)* 3.14* [radius]^3} 
+
+RULE [is it Cylinder]
+If [SHAPE] =  "Cylinder" and
+[radius] ? and 
+[height] ?
+Then  [volume] = { 3.14* [radius]^2 * [height]} 
+
+RULE [is it Cone]
+If [SHAPE] =  "Cone" and
+[radius] ? and 
+[height] ?
+Then [volume] = { (1/3) * 3.14* [radius]^2 * [height]} 
+
+PROMPT [SHAPE] multchoice
+"What is the shape of the object?"
+"Cube"
+"Sphere"
+"Cylinder"
+"Cone"
+
+PROMPT [cubeside] Numeric 
+"What is the side of the cube?"
+
+PROMPT [radius] Numeric 
+"What is the radius?"
+
+PROMPT [height] Numeric 
+"What is the hight?"
+
+GOAL [volume]
+
+
+REM Test Knowledge Base (application.kb)
+
+RULE [ politician]
+if [Personality] = "clever" and
+[Personality] = "Positive" and
+[Personality]= "outgoing" and
+[Major] = "Art" and
+[Study] >=4
+Then [JobRecomndation] = " you should work as a politician" 
+
+
+RULE [Medical Doctor]
+if [Personality] = "clever" and
+[Personality] = "positive" and
+[Personality] = "outgoing" and
+[Major] = "Sience" and
+[Study] >=7
+Then [JobRecomndation] = " you should work as a Medical Doctor"
+
+RULE [ Chemist]
+if [Personality] = "clever" and
+[Personality] = "positive" and
+[like natural object] = True and
+[Study] >=5
+Then [JobRecomndation] = " you should work as a Chemist" 
+
+
+RULE [ Architect]
+if [Personality] = "clever" and
+[Personality] = "positive" and
+[like natural object]  = False and
+[Study] >=4
+Then [JobRecomndation] = " you should work as a Architect" 
+
+
+RULE [ is your personality positive and outgoing]
+if [Personality] = "positive" and
+[Personality] = "outgoing" and
+[Personality] !"clever" and
+[Study] >=4
+Then [JobRecomndation] = " you should work as a Salesperson" 
+
+
+PROMPT [Personality] AllChoice 
+"What is your personality ?"
+"clever"
+"positive"
+"outgoing" 
+MAXVALS [Personality] 3
+
+
+PROMPT [Major] ForcedChoice
+"what is your major"
+"Art"
+"Sience"
+
+
+PROMPT [like natural object] YesNo 
+"do you like natural object?"
+
+PROMPT [Study] Numeric
+"How many study years you are expecting?"
+"0"
+"8"
+
+
+GOAL [JobRecomndation]
+
+
+
+REM Test Knowledge Base (weather.kb)
+
+
+
+RULE [Is it going to rain?]
+If [precipitation] = "expected" and
+[the expected temperature] > 32 
+Then [the recommendation] = "wear a raincoat"
+
+RULE [Is it going to snow?]
+If [precipitation] = "expected" and
+[the expected temperature] < 33
+Then [the recommendation] = "wear your boots" @ 95
+
+RULE [Is it going to not rain and hot?]
+If [precipitation] = "not expected" and
+[the expected temperature] > 32 
+Then [the recommendation] = "wear a light cloth"
+
+RULE [Is it going to not rain and cold?]
+If [precipitation] = "not expected" and
+[the expected temperature] < 33
+Then [the recommendation] = "wear a coat" @ 95
+
+
+
+PROMPT [the expected temperature] Numeric CF
+"The expected daytime temperature (degrees Fahrenheit) is:"
+"-30"
+"120"
+
+PROMPT [precipitation] MultChoice CF
+"According to the weather forecast, precipitation is:"
+"expected"
+"not expected"
+
+
+
+
+GOAL [the recommendation]
+
+DEFAULT [the recommendation] = "wear whatever you want" 
+
+
+REM Test Knowledge Base (region.kb)
+
+
+RULE [Sharqia or Wasta?]
+If [interests] = "desert" and 
+[interests] = "sea"
+Then [Region] = "it is recommended to visit Sharqia or Wasta region"
+
+
+RULE [Dhahira?]
+If [interests] = "desert" and 
+[interests] = "wadis"
+Then [Region] = "it is recommended to visit visit Dhahira region"
+
+
+RULE [Muscat?]
+If [interests] = "castles" and 
+[interests] = "sea"
+Then [Region] = "it is recommended to visit Muscat region"
+
+
+RULE [Dakhelia]
+If [interests] = "castles" and 
+[interests] != "sea" and
+[interests] != "desert"
+Then [Region] = "it is recommended to visit Dakhelia region"
+
+
+RULE [Batinah?]
+If [interests] = "sea" and 
+[interests] = "wadis" and
+[distance] < 500 and
+[weather] = "hot"
+Then [Region] = "it is recommended to visit Batinah region"
+
+
+RULE [Musandam?]
+If [interests] = "sea" and 
+[interests] = "wadis" and
+[distance] < 500 and
+[weather] = "cool"
+Then [Region] = "it is recommended to visit Musandam region"
+
+
+RULE [Dhofar?]
+If [interests] = "sea" and 
+[interests] = "wadis" and
+[distance] >= 500
+Then [Region] = "it is recommended to visit Dhofar region"
+
+
+
+PROMPT [interests] AllChoice
+"What are your interests? [Please select all applicable]"
+"desert"
+"sea"
+"wadis"
+"castles"
+MAXVALS [interests] 4
+
+
+PROMPT [distance] NUMERIC CF
+"How far you want to travel?"
+"0"
+"1000"
+
+
+PROMPT [weather] ForcedChoice CF
+"What do you prefer the weather to be?"
+"hot"
+"cool"
+
+
+GOAL [Region]
+
+
+DEFAULT [Region] = "we can not identify this region"
+
+REM <<<<<<<<<<<<<<<<  DIAGNOSIS KB FILE >>>>>>>>>>>>>>>>>>
+
+
+REM <<<<<<<<<<<<<<<<  DIAGNOSIS RULES >>>>>>>>>>>>>>>>>>
+RULE [Is it Laryngitis?]
+ IF [Symptoms] = "dry_cough" and 
+[Symptoms] = "general_malaise" and
+ [Symptoms] ="fever" 
+THEN  [the recommended Diagnosis] = "You may have Laryngitis" 
+
+RULE [Is it Influenza?] 
+IF [Symptoms] = "dry_cough" and 
+[Symptoms] = "general_malaise" and 
+[Symptoms] !="fever" 
+THEN  [the recommended Diagnosis] = "You may have Influenza" 
+
+RULE [Is it hay fever?] 
+IF [Symptoms] = "Runny_nose" and
+[Symptoms] = "sneezing" and
+[Allergy]= True 
+THEN  [the recommended Diagnosis] = "You may have hayfever"
+
+RULE [Is it common cold?] 
+IF [Symptoms] = "Runny_nose" and 
+[Symptoms] = "sneezing" and
+[Allergy]= FALSE 
+THEN  [the recommended Diagnosis] = "You may have a common cold" 
+
+RULE [Is it Asthma?] 
+IF [Symptoms] = "Breathlessness" and 
+[Symptoms] = "wheezing" 
+THEN [the recommended Diagnosis] = "You may have Asthma" 
+
+
+REM <<<<<<<<<<<<<<<<  DIAGNOSIS PROMPTS >>>>>>>>>>>>>>>>>>
+
+PROMPT [Symptoms] AllChoice 
+"WHat Symptoms do you have? Please select all applicable answers" 
+"dry_cough" 
+"general_malaise" 
+"fever" 
+"Runny_nose" 
+"sneezing" 
+"Breathlessness" 
+"wheezing" 
+MAXVALS [Symptoms] 7 
+
+PROMPT [Allergy] YesNo 
+"Do you allergy?" 
+
+
+REM <<<<<<<<<<<<<<<<  DIAGNOSIS GOAL >>>>>>>>>>>>>>>>>>
+
+GOAL [the recommended Diagnosis]
+DEFAULT [the recommended Diagnosis] = "I need more information to make the diagnosis"
+
+REM demonstrate e2gRuleEngine calculation capability
+
+RULE [calculate overtime hours]
+If [the number of hours worked] > 40
+Then [the overtime hours] = {[the number of hours worked] - 40}
+
+RULE [calculate pay]
+If [the hourly rate] ? and
+[the number of hours worked] ? and
+[the overtime hours] ?
+Then [the gross pay] = {[the hourly rate]*([the number of hours worked]-[the overtime hours])+1.5*[the hourly rate]*[the overtime hours]} @95
+
+REM MultChoice prompt to demonstrate coercing string values into numeric
+
+PROMPT [the hourly rate] MultChoice CF
+"The hourly rate is:"
+"5.00"
+"10.00"
+"15.00"
+
+PROMPT [the number of hours worked] Numeric CF
+"The number of hours worked is:"
+"0.0"
+"80.0"
+
+DEFAULT [the gross pay] = 0
+
+DEFAULT [the overtime hours] = 0
+
+GOAL [the gross pay]
+
+FORMAT [the gross pay] = "$%8.2f"
+MINCF 70
+
+
+REM Test Knowledge Base (fruit.kb)
+
+RULE [Banana?]
+IF [Shape] = "long" and
+ [Color] : "green" "yellow"
+THEN   [FruitClass] =" there is no fruit class" and
+[seedclass]  =" there is no seed class" and
+[Fruit] = "THe fruit is Banana" 
+
+
+
+
+REM <<<<<<<<<<<<<<<<<<<<TREE CLASS>>>>>>>>>>>>>>>>>>>>>>>>>
+RULE [Vine Tree?]
+IF [Diameter]  >4 and
+ [Shape] : "round" "oblong" 
+THEN   [FruitClass] = "VINE"  and
+[seedclass]  =" there is no seed class" 
+      
+
+RULE [TREE Tree?]
+IF [Diameter]  <=4 and
+ [Shape] = "round"
+THEN   [FruitClass] = "TREE"  
+
+
+REM <<<<<<<<<<<<<<<<<<<<<VINE FRUITS>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+RULE [Watermelon?]
+IF [FruitClass] = "VINE"   and
+   [Color] = "green" 
+THEN   [Fruit] = "The fruit is Watermelon"
+
+
+RULE [Honeydew?]
+IF [FruitClass] = "VINE"   and
+   [Color] = "yellow" and
+   [Surface] ="smooth"
+THEN   [Fruit] = "The fruit is Honeydew"
+
+RULE [Cantaloupe?]
+IF [FruitClass] = "VINE"   and
+   [Color] = "tan" and
+   [Surface] ="rough"
+THEN  [Fruit] = "The fruit is Cantaloupe"
+
+
+REM <<<<<<<<<<<<<<<<<<<SEDD CLAS>>>>>>>>>>>>>>>>>>>>
+
+RULE [Stone fruit?]
+IF [FruitClass] = "TREE" and 
+   [SeedCount] ="one" 
+THEN    [seedclass] = "StoneClass"
+
+RULE [Multiple fruit?]
+IF [FruitClass] = "TREE" and 
+   [SeedCount] ="many" 
+THEN    [seedclass] = "MultipleClass"
+
+REM <<<<<<<<<<<<<<<<TREE STONE FRUIT<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>
+
+RULE [Peach or Apricot?]
+IF [FruitClass] = "TREE"  and
+   [seedclass] = "StoneClass" and
+   [Color] = "orange" 
+THEN   [Fruit] = "The fruit is Peach or Apricot"
+
+
+RULE [Plum?]
+IF [FruitClass] = "TREE"  and
+   [seedclass] = "StoneClass" and
+   [Color] = "purple" 
+THEN   [Fruit] = "The fruit is Plum"
+
+RULE [Cherry?]
+IF [FruitClass] = "TREE"  and
+   [seedclass] = "StoneClass" and
+   [Color] = "red" 
+THEN   [Fruit] = "The fruit is cherry"
+
+REM <<<<<<<<<<<<<<<<TREE Multiple FRUIT<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>
+
+
+RULE [Orange?]
+IF [FruitClass] = "TREE"  and
+   [seedclass] = "MultipleClass" and
+   [Color]  = "orange"
+THEN   [Fruit] = "The fruit is Orange"
+
+
+
+RULE [Apple?]
+IF [FruitClass] = "TREE"  and
+   [seedclass] = "MultipleClass" and
+   [Color]  : "green" "yellow" "red"
+THEN   [Fruit] = "The fruit is Apple"
+
+
+REM <<<<<<<<<<<PROMPTS>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+PROMPT [Shape]  Forcedchoice
+"What is the shape of the fruit?"
+"long"
+"round"
+"oblong"
+
+PROMPT [Color]  Forcedchoice
+"What is the color of the fruit?"
+"green"
+"yellow"
+"orange"
+"red"
+"purple"
+"tan"
+
+PROMPT [Diameter]  Numeric 
+"What is the diameter of the fruit in inch?"
+"0"
+"10"
+
+
+PROMPT [SeedCount]  Forcedchoice
+"What is seedcount of the fruit?"
+"one"
+"Many" 
+
+
+PROMPT [Surface]  Forcedchoice
+"What is surface of the fruit?"
+"smooth"
+"rough"
+
+
+REM <<<<<<<<<<<GOALS>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+GOAL [Fruit]
+GOAL [seedclass] 
+Goal [FruitClass] 
+
+
+
+DEFAULT [Fruit] = " No fruit with this desciption"
+
+REM Exercise#1- Holiday Entitlement Calculation HANDOUT3
+REM this expert system calculates the total holiday for an employee
+
+RuLE [IS AGE > 18 and < 60 and service >15 and <30]
+IF [age] > 18 and
+[age] < 60  and 
+[service] > 15 and
+ [service] <30 
+THEN [holidaydesc] =" Your holiday is 22 days basic + 2 days" and
+[holiday] = {22+2}
+
+RuLE [IS AGE > 18 and < 60 and service <15]
+IF [age] > 18 and
+[age] < 60  and 
+[service] < 15  
+THEN [holidaydesc] =" Your holiday is 22 days basic " and
+[holiday] = 22
+
+RuLE [IS AGE > 18 and < 60 and service =15]
+IF [age] > 18 and
+[age] < 60  and 
+[service] = 15 
+THEN [holidaydesc] =" Your holiday is 22 days basic " and
+[holiday] = 22
+
+RuLE [IS AGE > 18 and < 60 and service =30]
+IF [age] > 18 and
+[age] < 60  and 
+[service] = 30 
+THEN [holidaydesc] =" Your holiday is 22 days basic + 5 days + 3days" and
+[holiday] = {22+5+3}
+
+RuLE [IS AGE > 18 and < 60 and service>30]
+IF [age] > 18 and
+[age] < 60  and 
+[service] > 30 
+THEN [holidaydesc] =" Your holiday is 22 days basic + 5 days + 3days" and
+[holiday] = {22+5+3}
+
+RuLE [IS AGE = OR < 18]
+IF [age] = 18 OR
+[age] < 18 
+THEN [holidaydesc] =" Your holiday is 22 days basic + 5 days" and
+[holiday] = {22+5}
+
+RuLE [IS AGE = OR > 60]
+IF [age] = 60 OR
+[age] > 60
+THEN [holidaydesc] =" Your holiday is 22 days basic + 5 days + 3days" and
+[holiday] = {22+5 +3}
+PROMPT [age] Numeric
+"What is your age?"
+"10"
+"120" 
+
+PROMPT [service]  Numeric
+"How many years you have been working in this organization?"
+"0"
+"100"
+
+GOAL [holidaydesc]
+GOAL [holiday]
+
+REM Test Knowledge Base (Fruit.kb)
+
+
+REM <<<<<<<<<<<<<<<<FRUIT CLASS RULES>>>>>>>>>>>>>>
+
+RULE [ VINE Fruitclass?]
+ IF  [shape] : "round" "oblong" and 
+     [diameter] > 4
+THEN [fruitclass] = "vine" 
+
+RULE [TREE Fruitclass?]
+ IF  [shape] = "round" and
+     [diameter] < 4
+THEN [fruitclass] = "tree"
+
+
+REM <<<<<<<<<<<<<<<<SEED CLASS RULES>>>>>>>>>>>>>>
+RULE [stonefruit seedclass ?]
+ IF  [seedcount] ="one"
+THEN  [seedclass] = "stonefruit"
+
+RULE [multiple seedclass ?]
+ if   [seedcount] ="many"
+THEN   [seedclass] = "multiple"
+
+REM <<<<<<<<<<<<<<<<FRUITS  RULES>>>>>>>>>>>>>>
+
+RULE [banana fruit?]
+ IF  [shape] = "long" and
+     [color] : "green" "yellow"
+THEN [Fruit] = "banana"
+
+RULE [watermelon fruit?]
+ IF  [fruitclass] = "vine" and
+     [color] = "green"
+THEN [Fruit] = "watermelon"
+
+RULE [honeydew Fruit?]
+ IF  [fruitclass] = "vine" and
+      [color] = "yellow" and    
+	[surface] = "smooth" 
+THEN [Fruit] = "honeydew"
+
+Rule [cantaloupe fruit?]
+ IF  [fruitclass] = "vine" and
+     [color] = "tan"  and
+     [surface] = "rough"     
+THEN [Fruit] = "cantaloupe"
+
+Rule [apricot or Peach fruit?]
+ IF  [fruitclass] = "tree" and
+     [color] = "orange" and
+     [seedclass] = "stonefruit"     
+THEN [Fruit] = "apricot or Peach"
+
+RULE [orange fruit?]
+ IF  [fruitclass] = "tree" and
+     [color] = "orange" and
+     [seedclass] = "multiple"      
+THEN [Fruit] = "orange"
+
+RULE [cherry fruit?]
+ IF  [fruitclass] = "tree" and
+     [color] = "red" and
+     [seedclass] = "stonefruit"      
+then [Fruit] = "cherry"
+
+RULE [apple fruit?]
+ IF  [fruitclass] = "tree" and
+     [color] : "red" "yellow" "green" and
+     [seedclass] = "multiple"      
+THEN [Fruit] = "apple"
+
+RULE [plum fruit?]
+ IF  [fruitclass] = "tree" and
+     [color] = "purple" and
+     [seedclass] = "stonefruit"      
+THEN [Fruit] = "plum"
+
+REM <<<<<<<<<<<<<<<<PROMPTS>>>>>>>>>>>>>>
+
+PROMPT [Seedcount] Forcedchoice
+"what is the Seedcount?"
+"one"
+"many"
+
+
+PROMPT [color] Choice
+"what is the fruit's color?"
+"green"
+"yellow"
+"orange"
+"red"
+"purple"
+"tan"
+
+PROMPT [shape] Forcedchoice
+"what is the Shape?"
+"round"
+"long"
+"oblong"
+
+PROMPT [Diameter] Numeric
+"what is the Diameter?"
+"0"
+"10"
+
+PROMPT [surface] Forcedchoice
+"Please select the surface"
+"rough"
+"smooth" 
+
+REM <<<<<<<<<<<<<<<<GOAL>>>>>>>>>>>>>>
+
+GOAL [Fruit]
+
+RULE [Politician?]
+IF  [character] = "smart" and
+    [character] =  "positive"  and
+    [character] =  "outgoing" and
+      [LikeNaturalScience?]= FALSE and
+    [studyyears]  >=4
+THEN  [career recommendation] = "Politician"
+
+RULE [Medical Doctor?]
+IF  [character] = "smart" and
+    [character] =  "positive" and
+    [character] =  "outgoing" and
+    [LikeNaturalScience?]= TRUE and
+    [studyyears]  >=7
+THEN  [career recommendation] = "Medical Doctor"
+
+RULE [sales person?]
+IF  [character] =  "positive" and
+    [character] = "outgoing" and
+    [studyyears]  <=4
+THEN  [career recommendation] = "Sales Person"
+
+
+RULE [chemist?]
+IF  [character] =  "smart" and
+  [character] =    "positive"  and
+      [stream] = "Science" and 
+    [studyyears]  <=5
+THEN  [career recommendation] = "Chemist"
+
+RULE [architect?]
+IF  [character] =  "smart" and
+    [character] =   "positive" and
+ [stream] = "Art" and 
+    [studyyears]  <=5
+THEN  [career recommendation] = "Architect"
+
+
+PROMPT [character] AllChoice
+"What of the below reflects your behavior?"
+"positive"
+"outgoing"
+"smart"
+
+MAXVALS [character]  = 3
+
+PROMPT [LikeNaturalScience?] YesNo 
+"do you like Natural Science? "
+
+
+PROMPT [stream] ForcedChoice
+"What is your stream?"
+"Art"
+"Science"
+
+PROMPT [studyyears] Numeric 
+"what is expected study years?"
+"0"
+"10"
+
+
+GOAL [career recommendation]
+
+DEFAULT [career recommendation] ="Select a job based on your interest" 
+
+
+
+RULE [ Is amount <=100?]
+IF  [amount] <=100
+THEN [LoanApplication] ="Reject-amount below minimum"
+
+RULE [ Is ?]
+IF  [amount] > 100 AND 
+[income]  =0
+THEN [LoanApplication] ="Reject-No Income"
+
+RULE [ amount >100 and income = 0 ?]
+IF  [amount] > 100 AND 
+[income]  > 0
+THEN [canpay?] = {[income]*5 -[amount]}
+
+RULE [Can Pay]
+IF [canpay?] > 0
+THEN  [LoanApplication] ="Approve- S/he can pay"
+
+RULE [Cannot pay]
+IF [canpay?] <=0
+THEN  [LoanApplication] ="Reject- S/he can not pay"
+
+
+PROMPT [amount] Numeric  
+"What is the requested loan amount?"
+"0.0"
+"1000000"
+
+PROMPT [income] Numeric  
+"What is your income?"
+"0.0"
+"50000"
+
+
+GOAL [LoanApplication]
+
+
+RULE [Politician?]
+IF  [character] = "smart" and
+ [character] =  "positive"  and
+    [character] =  "outgoing" and
+      [LikeNaturalScience?]= FALSE and
+    [studyyears]  >=4
+THEN  [career]  = "Politician"
+
+RULE [Medical Doctor?]
+IF  [character] = "smart" and
+IF   [character] =  "positive" and
+IF    [character] =  "outgoing" and
+IF    [LikeNaturalScience?]= "YES"and
+IF    [studyyears]  >=7
+THEN  [career] = "Medical Doctor"
+
+RULE [sales person?]
+IF  [character] =  "positive" and
+    [character] = "outgoing" and
+    [studyyears]  <=4  and
+THEN  [career] = "Sales Person"
+
+
+RULE [chemist?]
+IF  [character] =  "smart" and
+  [character] =    "positive"   
+      [streams] = "Science"  
+    [studyyears]  <=5
+THEN  [career] = "Chemist"
+
+RULE [architect?]
+IF  [character] =  "smart" and
+    [character] =   "positive" and
+ [streams] = "ARTS" and 
+    [studyyears]  <=5
+THEN  [career] = "Architect"
+
+
+[studyyears] Numeric 
+"what is expected study years?"
+"0"
+"10"
+
+PROMPT [character] AllChoice
+"What of the below reflects your behavior?"
+"positive"
+"outgoing"
+"smart"
+
+
+PROMPT [LikeNaturalScience?] YesNo 
+"do you like Natural Science? "
+
+
+PROMPT [stream] ForcedChoise
+"Art"
+"Science"
+
+
+
+
+ [career recommendation]
+
+DEFAULT [career recommendation] ="Select a job based on your interest" 
+
+
+REM Generated by v1.01 of e2gRuleWriter 12/11/2025 10:42 from: 
+
+RULE [Is it raining?]
+If [Perceptation] = "Expected" and
+[Temperature] >= 33
+Then [Recommendation] = "Wear a rain coat" 
+
+
+
+
+PROMPT [Perceptation] MultiChoice CF
+"What is the perceptation?"
+"Expected"
+"Not Expected"
+
+PROMPT [Temperature] Numeric CF
+"What is the tempreture in F?"
+"-100.0"
+"100.0"
+
+MINCF 80
+
+GOAL  [Recommendation] 
+
+
+REM Count Knowledge Base (personality.kb)
+
+
+
+RULE  [number of features]
+If [Person characteristics] ?
+Then [number of characteristics] = {#[Person characteristics]}
+
+
+RULE [HIGH]
+if [number of characteristics] >= 7
+THEN  [Personality] ="strong"
+
+
+
+RULE [average]
+if [number of characteristics] >2 and
+[number of characteristics] < 7
+THEN  [Personality] ="Average"
+
+RULE [low]
+if [number of characteristics] <= 2
+THEN  [Personality] ="Below Average"
+
+
+PROMPT [Person characteristics] AllChoice
+"Select all of the characteristics  you have"
+"confidence"
+"leadership"
+"decisiveness"
+"self-discipline"
+"resilience"
+"positive"
+"ambition"
+"Inspiration"
+"Persuasiveness"
+"responsible"
+MAXVALS [Person characteristics] 10
+
+DEFAULT [number of characteristics]  = 0
+
+GOAL [Personality]
+GOAL [number of characteristics] 
+
+REM MBA Knowledge Base (meal.kb)
+
+
+RULE [initial screnning on GPA?]
+If   [GPA] <= 2.7
+Then [admission recommendation]= "Reject; your GPA is not satisfactory" AND
+[admissionscoreresult] = 0
+
+
+RULE [GMAT admission formula?]
+If   [GPA] > 2.7 and
+[TestType] = "GMAT" and 
+[GMATScore] ?
+THEN [admissionscoreresult] ={50+[GPA]*[GMATScore]}
+
+
+RULE [GMAT admission formula?]
+If   [GPA] > 2.7 and
+[TestType] = "GRE" and 
+[GREScore] ?
+THEN [admissionscoreresult] ={[GPA]*[GREScore]}
+
+RULE [ reject -Low GMAT admission score]
+If  [TestType] = "GMAT" and 
+[admissionscoreresult] <= 2000
+Then [admission recommendation] ="Reject-You did not pass the admission score"  
+
+RULE [ reject -Low GRE admission score]
+If  [TestType] = "GRE" and 
+[admissionscoreresult] < 3100 
+Then [admission recommendation] ="Reject-You did not pass the admission score"  
+
+
+
+RULE [ acceptance -GMAT]
+If  [TestType] = "GMAT" and 
+[admissionscoreresult] > 2000  and 
+[workexpereince] = TRUE
+Then [admission recommendation] ="Congratulations! You are admitted for Information Technology Master program" 
+
+RULE [ acceptance -GRE]
+If  [TestType] = "GRE" and 
+[admissionscoreresult] > 3100 and 
+[workexpereince] = TRUE
+Then [admission recommendation] ="Congratulations! You are admitted for Information Technology Master program" 
+
+RULE [ conditional acceptance -GMAT]
+If  [TestType] = "GMAT" and 
+[admissionscoreresult] > 2000  and 
+[workexpereince] = FALSE 
+Then [admission recommendation] ="You are not admitted directly for the Information Technology Master program, but you can be considered for a conditional admission" 
+
+RULE [ conditiona acceptance -GRE]
+If [TestType] = "GRE" and 
+[admissionscoreresult] > 3100 and 
+[workexpereince] = FALSE
+Then [admission recommendation] ="You are not admitted directly for the Information Technology Master program, but you can be considered for a conditional admission" 
+
+
+PROMPT [GPA] Numeric
+"What is your cumulative GPA?"
+"0"
+"4"
+
+PROMPT [TestType] forcedchoice
+"What is your test type?"
+"GRE"
+"GMAT"
+
+
+PROMPT [GREScore] Numeric
+"What is your GRE Score?"
+"1000"
+"2500"
+
+PROMPT [GMATScore] Numeric
+"What is your GMAT Score?"
+"0"
+"1200"
+
+PROMPT [workexpereince] yesno
+"do you have  work experience? "
+
+
+
+
+GOAL [admission recommendation]
+GOAL [admissionscoreresult]
+
+REM MBA Knowledge Base (deposit.kb)
+
+
+
+RULE [simple interest]
+IF  [interesttype] ="simple" AND
+[principle amount] ? AND
+[rate] ?  AND
+[duration] ?
+THEN [deposit] ={[principle amount]*([rate]/100) *[duration]}  AND
+ [principle with deposit] ={[deposit]+[principle amount]}
+
+
+
+RULE [compound interest]
+IF  [interesttype] ="compound" AND
+[principle amount] ? AND
+[rate] ?  AND
+[duration] ?
+THEN [deposit] ={[principle amount]*(1+([rate]/100))^[duration]}  AND
+ [principle with deposit] ={[deposit]+[principle amount]}
+
+RULE [total accounts selescted]
+IF  [principle with deposit] ?  AND
+[account] ?
+THEN [TotalSelectedAccounts] = {#[account]}
+
+RULE [ GOFT at least 2 total accounts selescted]
+IF  [principle with deposit] ?  AND
+[TotalSelectedAccounts] >=2
+THEN  [gift]= {([TotalSelectedAccounts]/100)*[principle with deposit]}
+
+
+RULE [ GiFT for not least 2 total accounts selescted]
+IF  [principle with deposit] ?  AND
+[TotalSelectedAccounts] <2
+THEN  [gift]= 0
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+PROMPT [principle amount] Numeric
+"What is the principle amount ??"
+
+
+
+PROMPT [duration] Numeric
+"What is the duration ??"
+ "5"
+"15"
+
+PROMPT [rate] forcedchoice
+"What is the rate?"
+"3"
+"4"
+"5"
+
+PROMPT [interesttype] forcedchoice
+"What is your deposit type?"
+"simple"
+"compound"
+
+
+PROMPT [account] allchoice
+"what types of accounts you have with the bank?"
+"current"
+"saving"
+"credit"
+
+MAXVALS [account] 3
+ 
+GOAL  [gift]
+GOAL  [principle with deposit]
+GOAL [deposit]
+
+FORMAT [deposit] ="OMR%9.3f"
+FORMAT [principle with deposit] ="OMR%9.3f"
+FORMAT [gift] ="OMR%9.3f"
+
+REM Count Knowledge Base (feature.kb)
+
+
+
+RULE  [number of features]
+If [important features] ?
+Then [number of features] = {#[important features]}
+
+
+PROMPT [important features] AllChoice
+"Select all of the features you consider important"
+"feature 1"
+"feature 2"
+"feature 3"
+"feature 4"
+"feature 5"
+
+MAXVALS [important features] 5
+
+DEFAULT  [important features] = "no features selected"
+
+GOAL [number of features]
+
+
+
+
+
+
+
+

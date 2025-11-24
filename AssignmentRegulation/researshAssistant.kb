@@ -1,0 +1,85 @@
+
+RULE  [Degree type]
+IF [Degree] : "IS" "IT" "COMP"
+Then [continue] = TRUE
+Else [Accepted] = "Reject-Your degree is not acceptable"
+
+RULE [GPA CHECK]
+IF [GPA] >= 3 
+THEN [continue] = TRUE
+Else [Accepted] = "Reject-Your GPA is not acceptable"
+
+RULE [IELTS CHECK]
+IF [continue] = TRUE AND
+[IELTS] >= 6 
+THEN  [continue] = TRUE
+Else [Accepted] = "Reject-Your ILETS Score is not acceptable"
+
+
+RULE [Score CHECK]
+IF [continue] = TRUE AND
+[GPA] ? AND
+[IELTS] ?
+THEN [Accepted Score] = { [IELTS] * [GPA] * 100 }
+
+
+RULE [Accepted Score > 1900]
+IF [continue] = TRUE AND
+[Accepted Score] > 1900 
+THEN [continue] = TRUE
+Else [Accepted] = "Reject-Your  did not pass the acceptance Score"
+
+RULE [Accepted Score > 1900]
+IF [continue] = TRUE AND
+[Traning] = TRUE AND
+[Accepted Score] ?
+THEN [Accepted] = "Congratulations you are accepted for research assistant position" AND
+[Assigned Salary] = { 400 + (4% * [Accepted Score] ) }
+
+RULE [total accounts selescted]
+IF [Personality] ?
+THEN [TotalSelectedPersonality] = {#[Personality]}
+
+RULE [Personality CHECK] 
+IF [TotalSelectedPersonality] >= 3
+THEN [Accepted] = "you are not accepted directly for the research program"
+Else [Accepted] = "Reject-Your  work Exercise not qualified"
+
+
+
+PROMPT [Degree] allchoice
+"what of this degrees you have ??"
+"IS"
+"IT"
+"COMP"
+"None of them"
+
+PROMPT [GPA] Numeric 
+"That is Your GPA ??"
+"0"
+"4"
+
+PROMPT [IELTS] Numeric 
+"That is Your ILETS Score ??"
+"0"
+"10"
+
+PROMPT [Traning] YesNo
+"you have traiing brfor ??"
+
+PROMPT [Personality] AllChoice
+"Select all of the Personality you consider you have"
+"confidence"
+"leadership"
+"decisiveness"
+"self-discipline"
+"resilience"
+
+
+GOAL [Assigned Salary]
+GOAL [Accepted]
+GOAL [Accepted Score]
+
+DEFAULT [Assigned Salary] = 0 
+
+FORMAT [Assigned Salary] ="OMR%9.3f"
